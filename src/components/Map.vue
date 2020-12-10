@@ -97,34 +97,49 @@
           </div>
           <!------------ Zoom controls and layer manager end ------------>
 
-          <!------------ Output panel MZ start ------------>
-          <div class="flex xs10 sm3 md3 lg6 xl6" v-if="outputPanel" style="position: absolute; z-index: 10; top:260px; right: 10px; background-color: #27304c;">
+          <!------------ Output panel start ------------>
+          
+          <v-flex xs12 sm2 md2 lg2 v-if="outputPanel" style="position: absolute; z-index: 10; top:260px; right: 10px; max-height: 350px">
+            <v-flex xlg4 offset-xlg8 lg9 offset-lg3 md12 sm12 style=" background-color: #27304c;">
+              <v-toolbar class="green pa-0 ma-0" tabs height="35px" style="padding:0px;">
+                <v-toolbar-title class="pa-0 ma-0">
 
-            <v-toolbar class="green" tabs height="30px" >
-              <v-toolbar-title style="padding: 0px;">
-                <span style="color:#27304c; font-size: 14px;">
-                  Outputs
-                </span>
-              </v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn icon title="Close output panel" @click="outputPanel = false">
-                <v-icon color="#27304c">clear</v-icon>
-              </v-btn>
-            </v-toolbar>
+                  <v-btn icon class="ma-0" title="Download GeoJSON" @click="downloadGeoJSON()">
+                    <v-icon color="#27304c">archive</v-icon>
+                  </v-btn>
 
-            <div style="background-color: white; margin-top: 5px;">
-              <div class="pa-2">
-                <span><strong>Dates used for computation</strong></span><br />
+                  <span style="color:#27304c; font-size: 16px;">
+                    Outputs
+                  </span>
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon title="Close output panel" @click="outputPanel = false">
+                  <v-icon color="#27304c">clear</v-icon>
+                </v-btn>
+                
+              </v-toolbar>
 
-                <span v-for="(value) in outputDates" v-bind:key="value"  style="margin-left: 8px;">
-                  {{value | truncate}} <br />
-                </span>
+              <div style="background-color: white; padding-left: 10px; padding-right: 10px; padding-bottom: 10px; margin-top: 5px; height: 400px; overflow-y: scroll;">
+                <v-layout row wrap style="margin-top: 5px;">
+
+                  <v-flex xs12 row v-for="(value, key) in outputData" v-bind:key="value + 1"  style="padding-top: 5px; padding-bottom: 5px; ">
+                    <span v-if="key != 'geometry'">
+                      <v-layout row wrap style="font-size: 12px; ">
+                      <v-flex xs6 sm6>                     
+                        <span class="caption grey--text" style="margin-right: 4px;">{{ key }}: </span>                            
+                      </v-flex>
+                      <v-flex xs6 sm6 style="text-align: right;">
+                          {{ value }}
+                      </v-flex>
+                        </v-layout>
+                    </span>
+                  </v-flex>
+
+                </v-layout>
               </div>
-              <v-img height="110" width="250" contain src="https://mapserver.test.euxdat.eu/cgi-bin/mapserv?map=/maps/management-zone/07a205f3-f2a4-44ef-a04c-d33dd4b4fc09/lai.map&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetLegendGraphic&FORMAT=image/png&TRANSPARENT=true&HEIGHT=200&WIDTH=400&LAYER=lai&SLD_version=1.1.0" alt=""></v-img>
-
-            </div>
-          </div>
-          <!------------ Output panel MZ end ------------>
+            </v-flex>
+          </v-flex> 
+          <!------------ Output panel end ------------>          
 
           <!------------ Alert start ------------>
           <div class="flex xs3" style="left: 10px; bottom: 10px; position: absolute; z-index: 10;" >
@@ -149,6 +164,7 @@ import View from 'ol/View.js';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer.js';
 import {Vector as VectorSource} from 'ol/source.js'
 import {Fill, Stroke, Style} from 'ol/style.js';
+import {Select} from 'ol/interaction.js';
 import moment from 'moment';
 import OSM from 'ol/source/OSM';
 import BingMaps from 'ol/source/BingMaps.js';
@@ -172,8 +188,8 @@ export default {
     alertType: "error",
     isLoading: false,
     outputPanel: false,
-    outputDates: [],
-
+    outputData: {},
+    downloadURL: ""
   }),
   methods: {    
     initMap() {
@@ -223,9 +239,9 @@ export default {
         ],
         view: new View({
           projection: 'EPSG:3857', 
-          center: [1607623.578894, 6462139.245285],
+          center: [1607623.578894, 6462139.245285], // [12.14, 48.51]
           zoom: 11,
-          minZoom: 8,
+          // minZoom: 8,
         })
       });
 
@@ -266,20 +282,57 @@ export default {
     },//setLayerVisibility
     /**
     * Get the map layer by name and return it as a OL layer object
-    *
+    *        
     * @param {string} name
     * @return {object}
     * @public
     */
     getLayerFromMapByName(name){
-        var layer;
-        this.$store.state.map.getLayers().forEach(function(lyr) {
-            if(lyr.get('name') === name){
-                layer = lyr;
-            }
+      var layer;
+      this.$store.state.map.getLayers().forEach(function(lyr) {
+        if(lyr.get('name') === name){
+          layer = lyr;
+        }
+      });
+      return layer;
+    },//getLayerFromMapByName      
+    showOutput(bool, url){
+      var self = this;
+      this.downloadURL = url;
+
+      if(bool){
+
+        var interactionSelect = new Select({
+          layers:[this.getLayerFromMapByName('output')]
         });
-        return layer;
-    },//getLayerFromMapByName
+        this.$store.state.map.addInteraction(interactionSelect);
+
+        this.$store.state.interactionSelect = interactionSelect;
+
+        interactionSelect.on('select', function(e) {
+          e.target.getFeatures().forEach(function(f){
+
+            if(!f.getProperties().culture){
+              self.outputData = f.getProperties();            
+              self.outputPanel = true;            
+            }//else{
+              //f.setStyle(self.defaultStyle);
+            //}
+          })
+        });
+
+      }else{
+        this.outputPanel = false; 
+      }
+    },
+    /**
+    * Open a new tab in the explorer to download the output
+    *
+    * @public
+    */
+    downloadGeoJSON(){
+      window.open(this.downloadURL, '_blank');
+    },//downloadGeoJSON    
     /**
     * Create an alert with custom message
     *
@@ -316,9 +369,8 @@ export default {
       this.showAlert(type, msg);
     });
 
-    this.$eventBus.$on('show-outputPanel', (bool, dates)  => {
-      this.outputPanel = bool;
-      this.outputDates = dates;
+    this.$eventBus.$on('show-outputPanel', (bool, url)  => {      
+      this.showOutput(bool, url)      
     });
   },
   filters: {
