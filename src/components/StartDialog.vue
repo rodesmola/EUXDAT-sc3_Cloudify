@@ -97,11 +97,6 @@
             </ul>
         </p>
         <p>
-            <span class="title" style="color: #37aa48; font-size 12px;">
-            Description of output
-            </span>
-        </p>    
-        <p>
             The rest of the agro-climatic factors mentioned above can be found in the <strong>public/shared</strong> folder of Jupyter Notebook 
             Prototyping environment within the EUXDAT e-infrastructure – see the part TOOLS & APPLICATIONS at test.euxdat.eu.
         </p>             
