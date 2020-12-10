@@ -180,7 +180,7 @@ export default {
     AgroclimaticZones,
   },
   data: () => ({
-    startDialog: false,
+    startDialog: true,
     selectedBaseLayer: 'osm',
     isValid: false,
     isAlert: false,
