@@ -348,11 +348,8 @@ export default {
         this.isOutput = false;
         this.outputPanel = false;       
         this.$store.state.interactionSelect.getFeatures().clear();
-        //this.$store.state.map.removeLayer(this.getLayerFromMapByName('output'));
-
         this.$eventBus.$emit('remove-outputLayer', 'output');
-this.$eventBus.$emit('disable-addBtn', false);
-
+        this.$eventBus.$emit('disable-addBtn', false);
         this.$eventBus.$emit('show-outputPanel', false, this.downloadURL);
 
         this.agroClimaticData = {

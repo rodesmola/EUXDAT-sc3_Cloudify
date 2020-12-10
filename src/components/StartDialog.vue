@@ -1,6 +1,6 @@
 <template>
 
-    <v-flex xs12  class="pa-3" style=" text-align: justify; ">
+    <v-flex xs12  class="pa-4" style=" text-align: justify; ">
         <div style="margin-bottom: 15px">
             <img style="width: 160px; position: absolute; opacity: 0.2; bottom: 70px; right: 5px;" src="../assets/logo2.png" alt="">
             <span class="title" style="color: #1e2f4d;">Delimiting Agro-climatic zones scenario</span>
@@ -16,14 +16,14 @@
         </p>
         <p>
             <ul>
-            <li>Frost (Date of last spring frost, date of first fall frost, the average length of f
-                rost-free season, frost-free period).</li>
-            <li>Days for fall nitrogen application for a given site /area.</li>
-            <li>Solar radiation for a given site /area.</li>
-            <li>Growing degree days: average /minimum /maximum growing degree days 
-                (base 0°C, 3°C, 5°C, 8°C, 10°C, 15°C) for a given site /area.</li>
-            <li>Heat stress units for C3/C4 crops for a given site /area.</li>
-            <li>The number of days with (optimum) growing temperatures for C3/C4 crops for a given site /area.</li>
+                <li style="margin-bottom: 10px;">Frost (Date of last spring frost, date of first fall frost, the average length of f
+                    rost-free season, frost-free period).</li>
+                <li style="margin-bottom: 10px;">Days for fall nitrogen application for a given site /area.</li>
+                <li style="margin-bottom: 10px;">Solar radiation for a given site /area.</li>
+                <li style="margin-bottom: 10px;">Growing degree days: average /minimum /maximum growing degree days 
+                    (base 0°C, 3°C, 5°C, 8°C, 10°C, 15°C) for a given site /area.</li>
+                <li style="margin-bottom: 10px;">Heat stress units for C3/C4 crops for a given site /area.</li>
+                <li>The number of days with (optimum) growing temperatures for C3/C4 crops for a given site /area.</li>
             </ul>
         </p>
         <p style="margin-bottom: 15px;">
@@ -86,20 +86,34 @@
         </p>  
         <p>
             <ul>
-                <li>[First<span style="font-style: italic;">Dyyyy</span>] = first frost date of each year (date)</li>
-                <li>[Last<span style="font-style: italic;">Dyyyy</span>] = last frost date of each year (date)</li>
-                <li>[Period<span style="font-style: italic;">yyyy</span>] = frost-free period of each year (integer in days)</li>
-                <li>[FrDays<span style="font-style: italic;">yyyy</span>] = number of frost days of each year (integer in days)</li>
-                <li>[FirstD<span style="font-style: italic;">nn</span>] = first frost date with a defined probability (integer in days)</li>
-                <li>[LastD<span style="font-style: italic;">nn</span>] = last frost date with a defined probability (date)</li>
-                <li>[Period<span style="font-style: italic;">nn</span>] = frost-free season with a defined probability (integer, days)</li>
-                <li>[AvgFrDays] = average number of frost days for the chosen period (integer in days)</li>
+                <li style="margin-bottom: 10px;">[First<span style="font-style: italic;">Dyyyy</span>] = first frost date of each year (date)</li>
+                <li style="margin-bottom: 10px;">[Last<span style="font-style: italic;">Dyyyy</span>] = last frost date of each year (date)</li>
+                <li style="margin-bottom: 10px;">[Period<span style="font-style: italic;">yyyy</span>] = frost-free period of each year (integer in days)</li>
+                <li style="margin-bottom: 10px;">[FrDays<span style="font-style: italic;">yyyy</span>] = number of frost days of each year (integer in days)</li>
+                <li style="margin-bottom: 10px;">[FirstD<span style="font-style: italic;">nn</span>] = first frost date with a defined probability (integer in days)</li>
+                <li style="margin-bottom: 10px;">[LastD<span style="font-style: italic;">nn</span>] = last frost date with a defined probability (date)</li>
+                <li style="margin-bottom: 10px;">[Period<span style="font-style: italic;">nn</span>] = frost-free season with a defined probability (integer, days)</li>
+                <li style="margin-bottom: 10px;">[AvgFrDays] = average number of frost days for the chosen period (integer in days)</li>
             </ul>
         </p>
         <p>
+            <span class="title" style="color: #37aa48; font-size 12px;">
+            Other agro-climatic factors
+            </span>
+        </p>        
+        <p>
             The rest of the agro-climatic factors mentioned above can be found in the <strong>public/shared</strong> folder of Jupyter Notebook 
             Prototyping environment within the EUXDAT e-infrastructure – see the part TOOLS & APPLICATIONS at test.euxdat.eu.
-        </p>             
+        </p> 
+        <p>
+            <span class="title" style="color: #37aa48; font-size 12px;">
+            Example of agro-climatic factors in 3D
+            </span>
+        </p>        
+        <p>
+            An example showing the calculated agro-climatic factors in 3D environment for the area of Pilsen region in the Czech Republic for 
+            1982-2019 is available <a target="_blank" href="https://app.hslayers.org/project-agro-climatic">here.</a>
+        </p>                     
     </v-flex>
 
 </template>
