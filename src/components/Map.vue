@@ -240,8 +240,9 @@ export default {
         view: new View({
           projection: 'EPSG:3857', 
           center: [1707623.578894, 6432139.245285], // [12.14, 48.51]
-          zoom: 8,
-          minZoom: 8,
+          extent: [1525291.697819, 6335895.825063, 1865993.003313, 6555524.926847],
+          zoom: 9,
+          minZoom: 9,
         })
       });
 
