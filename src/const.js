@@ -1,4 +1,4 @@
-var domain = 'test.euxdat.eu';
+var domain = 'platform.euxdat.eu';
 var dbHost = 'https://geodb-devel.'+domain+'/xalkidiki/';
 var cloudifyHost = 'https://cloudify-api.'+domain+'/api/v3.1/';
 var apacheHost = 'https://apache.'+domain+'/agroclimatic_zones_scenario_outputs/';

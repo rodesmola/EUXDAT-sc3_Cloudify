@@ -430,7 +430,7 @@ export default {
         if (!this.$v.agroClimaticData.probability.$dirty) return errors
           !this.$v.agroClimaticData.probability.required && errors.push('Mandatory field')
           !this.$v.agroClimaticData.probability.between && errors.push('Values from 0 to 100')
-          !this.$v.agroClimaticData.probabilitye.numeric && errors.push('Insert a number')
+          !this.$v.agroClimaticData.probability.numeric && errors.push('Insert a number')
           return errors
         },                     
       },
